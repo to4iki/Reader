@@ -1,0 +1,11 @@
+language: generic
+os: osx
+osx_image: xcode9.2
+
+script:
+  - swift --version
+  - swift build
+  - swift test
+
+notifications:
+  email: false

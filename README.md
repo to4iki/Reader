@@ -1,4 +1,5 @@
 # Reader
+[![Build Status][status-image]][status-url]
 [![Carthage compatible][carthage-image]][carthage-url]
 
 Reader monad in Swift, inspired by [implemention with Scala](https://gist.github.com/Mortimerp9/5384467).
@@ -47,6 +48,9 @@ dependencies: [
     .Package(url: "https://github.com/to4iki/Reader.git", majorVersion: 0)
 ]
 ```
+
+[status-url]: https://travis-ci.org/to4iki/Reader
+[status-image]: https://travis-ci.org/to4iki/Reader.svg
 
 [carthage-url]: https://github.com/Carthage/Carthage
 [carthage-image]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat

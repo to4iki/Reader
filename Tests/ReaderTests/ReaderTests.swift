@@ -21,10 +21,19 @@ final class ReaderTests: XCTestCase {
         XCTAssertEqual(reader.execute("a").name, "Aa")
     }
 
+    func testZipOperator() {
+        let reader1 = Reader(addTwo)
+        let reader2 = Reader<Int, String>(String.init)
+        let zipped = Reader<Int, (Int, String)>.zip(reader1, reader2).execute(1)
+        XCTAssertEqual(zipped.0, 1)
+        XCTAssertEqual(zipped.1, "1")
+    }
+
     static var allTests = [
         ("testExecute", testExecute),
         ("testMapOperator", testMapOperator),
-        ("testFlatMapOperator", testFlatMapOperator)
+        ("testFlatMapOperator", testFlatMapOperator),
+        ("testZipOperator", testZipOperator)
     ]
 }
 

@@ -40,4 +40,16 @@ public struct Reader<Input, Element> {
             transform(self.execute(input)).execute(input)
         }
     }
+
+    /// Returns a reader which combines two leaders
+    ///
+    /// - Parameters
+    ///   - reader1: The first reader
+    ///   - reader2: The second reader
+    /// - Returns: A new combined reader
+    public static func zip<Input, Element1, Element2>(_ reader1: Reader<Input, Element1>, _ reader2: Reader<Input, Element2>) -> Reader<Input, (Element1, Element2)> {
+        return reader1.flatMap { element1 in
+            reader2.map { element2 in (element1, element2) }
+        }
+    }
 }

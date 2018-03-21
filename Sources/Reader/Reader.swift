@@ -41,6 +41,16 @@ public struct Reader<Input, Element> {
         }
     }
 
+    /// Returns a reader with two inputs composed of this reader and result of gived closure
+    ///
+    /// - Parameter transform: A transforming closure.
+    /// - Returns: A new reader with two inputs by `transform`
+    public func flatMapConcat<Input2, T>(_ transform: @escaping (Element) -> Reader<Input2, T>) -> Reader<(Input, Input2), T> {
+        return Reader<(Input, Input2), T> { input in
+            transform(self.execute(input.0)).execute(input.1)
+        }
+    }
+
     /// Returns a reader which combines two leaders
     ///
     /// - Parameters

@@ -21,11 +21,17 @@ final class ReaderTests: XCTestCase {
         XCTAssertEqual(reader.execute("a").name, "Aa")
     }
 
+    func testFlatMapConcat() {
+        let reader = Reader(addTwo)
+            .flatMapConcat { input1 in Reader<String, Cat> { input2 in Cat(name: "\(input1)" + input2) } }
+        XCTAssertEqual(reader.execute((1, "a")).name, "3a")
+    }
+
     func testZipOperator() {
         let reader1 = Reader(addTwo)
         let reader2 = Reader<Int, String>(String.init)
         let zipped = Reader<Int, (Int, String)>.zip(reader1, reader2).execute(1)
-        XCTAssertEqual(zipped.0, 1)
+        XCTAssertEqual(zipped.0, 3)
         XCTAssertEqual(zipped.1, "1")
     }
 
@@ -33,6 +39,7 @@ final class ReaderTests: XCTestCase {
         ("testExecute", testExecute),
         ("testMapOperator", testMapOperator),
         ("testFlatMapOperator", testFlatMapOperator),
+        ("testFlatMapConcat", testFlatMapConcat),
         ("testZipOperator", testZipOperator)
     ]
 }

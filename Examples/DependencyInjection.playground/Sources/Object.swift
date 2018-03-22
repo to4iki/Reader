@@ -4,8 +4,16 @@ public struct User {
     public let name: String
 }
 
+public struct Tweet {
+    public let text: String
+}
+
 public protocol UserServiceType {
     func find(by id: User.Id) -> User?
+}
+
+public protocol TweetServiceType {
+    func findAll(by userName: String) -> [Tweet]
 }
 
 public struct UserService: UserServiceType {
@@ -13,7 +21,7 @@ public struct UserService: UserServiceType {
     private init() {}
 
     public func find(by id: User.Id) -> User? {
-        return User(id: id, name: "production")
+        return User(id: id, name: "name-\(id)")
     }
 }
 
@@ -26,5 +34,26 @@ public struct MockUserService: UserServiceType {
 
     public func find(by id: User.Id) -> User? {
         return user
+    }
+}
+
+public struct TweetService: TweetServiceType {
+    public static let shared = TweetService()
+    private init() {}
+
+    public func findAll(by userName: String) -> [Tweet] {
+        return (1...3).map { Tweet(text: "\(userName)-\($0)") }
+    }
+}
+
+public struct MockTweetService: TweetServiceType {
+    private let tweets: [Tweet]
+
+    public init(tweets: [Tweet]) {
+        self.tweets = tweets
+    }
+
+    public func findAll(by userName: String) -> [Tweet] {
+        return tweets
     }
 }

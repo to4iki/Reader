@@ -4,26 +4,37 @@ import Reader
 
 protocol Module {
     var userService: UserServiceType { get }
+    var tweetService: TweetServiceType { get }
 }
 
 struct ProductionModule: Module {
     var userService: UserServiceType { return UserService.shared }
+    var tweetService: TweetServiceType { return TweetService.shared }
 }
 
 struct TestModule: Module {
     var userService: UserServiceType { return MockUserService(user: nil) }
+    var tweetService: TweetServiceType { return MockTweetService(tweets: []) }
 }
 
 // MARK: - Execution
 
-func findUser(with id: User.Id) -> Reader<Module, User?> {
+func userAction(with id: User.Id) -> Reader<Module, User?> {
     return Reader { module in module.userService.find(by: id) }
 }
 
-findUser(with: "123")
-    .map { $0?.name }
-    .execute(ProductionModule()) // "production"
+func tweetsAction(with userName: String) -> Reader<Module, [Tweet]> {
+    return Reader { module in module.tweetService.findAll(by: userName) }
+}
 
-findUser(with: "123")
-    .map { $0?.name }
-    .execute(TestModule()) // nil
+userAction(with: "prod")
+    .map { $0?.name ?? "" }
+    .flatMap(tweetsAction)
+    .execute(ProductionModule())
+// [{text "name-prod-1"}, {text "name-prod-2"}, {text "name-prod-3"}]
+
+userAction(with: "test")
+    .map { $0?.name ?? "" }
+    .flatMap(tweetsAction)
+    .execute(TestModule())
+// []

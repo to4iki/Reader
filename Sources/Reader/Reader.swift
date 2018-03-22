@@ -40,4 +40,26 @@ public struct Reader<Input, Element> {
             transform(self.execute(input)).execute(input)
         }
     }
+
+    /// Returns a reader with two inputs composed of this reader and result of gived closure
+    ///
+    /// - Parameter transform: A transforming closure.
+    /// - Returns: A new reader with two inputs by `transform`
+    public func flatMapConcat<Input2, T>(_ transform: @escaping (Element) -> Reader<Input2, T>) -> Reader<(Input, Input2), T> {
+        return Reader<(Input, Input2), T> { input in
+            transform(self.execute(input.0)).execute(input.1)
+        }
+    }
+
+    /// Returns a reader which combines two leaders
+    ///
+    /// - Parameters
+    ///   - reader1: The first reader
+    ///   - reader2: The second reader
+    /// - Returns: A new combined reader
+    public static func zip<Input, Element1, Element2>(_ reader1: Reader<Input, Element1>, _ reader2: Reader<Input, Element2>) -> Reader<Input, (Element1, Element2)> {
+        return reader1.flatMap { element1 in
+            reader2.map { element2 in (element1, element2) }
+        }
+    }
 }

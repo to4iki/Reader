@@ -29,7 +29,7 @@ reader
 ## :syringe:
 Simple and static **Dependency Injection** is possible with `Reader`
 
-example: [Playground](Examples/DependencyInjection.playground/Contents.swift)
+example: [Playground](DependencyInjection.playground/Contents.swift)
 
 ## Installation
 

@@ -10,6 +10,7 @@ let package = Package(
             targets: ["Reader"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/typelift/SwiftCheck.git", from: "0.11.0")
     ],
     targets: [
         .target(
@@ -17,6 +18,6 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "ReaderTests",
-            dependencies: ["Reader"]),
+            dependencies: ["Reader", "SwiftCheck"]),
     ]
 )

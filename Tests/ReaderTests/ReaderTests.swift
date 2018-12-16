@@ -1,3 +1,4 @@
+import SwiftCheck
 import XCTest
 @testable import Reader
 
@@ -7,6 +8,13 @@ final class ReaderTests: XCTestCase {
     func testExecute() {
         let reader = Reader(addTwo)
         XCTAssertEqual(reader.execute(1), 3)
+    }
+
+    func testMonadLaw() {
+        // TODO: Monad left identity law, associativity law"
+        property("Monad right identity law") <- forAll { (i: Int, r: Reader<Int, Int>) in
+            r.flatMap(Reader<Int, Int>.pure).execute(i) == r.execute(i)
+        }
     }
 
     func testMapOperator() {

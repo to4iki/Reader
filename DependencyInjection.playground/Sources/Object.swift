@@ -32,7 +32,7 @@ public struct MockUserService: UserServiceType {
         self.user = user
     }
 
-    public func find(by id: User.Id) -> User? {
+    public func find(by _: User.Id) -> User? {
         return user
     }
 }
@@ -42,7 +42,7 @@ public struct TweetService: TweetServiceType {
     private init() {}
 
     public func findAll(by userName: String) -> [Tweet] {
-        return (1...3).map { Tweet(text: "\(userName)-\($0)") }
+        return (1 ... 3).map { Tweet(text: "\(userName)-\($0)") }
     }
 }
 
@@ -53,7 +53,7 @@ public struct MockTweetService: TweetServiceType {
         self.tweets = tweets
     }
 
-    public func findAll(by userName: String) -> [Tweet] {
+    public func findAll(by _: String) -> [Tweet] {
         return tweets
     }
 }

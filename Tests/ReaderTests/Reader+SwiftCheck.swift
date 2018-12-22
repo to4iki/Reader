@@ -1,5 +1,5 @@
-import SwiftCheck
 @testable import Reader
+import SwiftCheck
 
 extension Reader {
     static func pure(_ element: Element) -> Reader<Input, Element> {

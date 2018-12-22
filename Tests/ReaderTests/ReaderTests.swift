@@ -1,6 +1,6 @@
+@testable import Reader
 import SwiftCheck
 import XCTest
-@testable import Reader
 
 final class ReaderTests: XCTestCase {
     let addTwo: (Int) -> Int = { $0 + 2 }
@@ -48,7 +48,7 @@ final class ReaderTests: XCTestCase {
         ("testMapOperator", testMapOperator),
         ("testFlatMapOperator", testFlatMapOperator),
         ("testFlatMapConcat", testFlatMapConcat),
-        ("testZipOperator", testZipOperator)
+        ("testZipOperator", testZipOperator),
     ]
 }
 
